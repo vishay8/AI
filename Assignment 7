@@ -1,0 +1,34 @@
+def is_variable(term):
+    return term.islower() and term.isalpha()
+
+def unify(expr1, expr2):
+    if len(expr1) != len(expr2):
+        return None
+
+    substitution = {}
+
+    for t1, t2 in zip(expr1, expr2):
+        if t1 == t2:
+            continue
+        elif is_variable(t1):
+            substitution[t1] = t2
+        elif is_variable(t2):
+            substitution[t2] = t1
+        else:
+            return None  # Conflict: constants don't match
+
+    return substitution
+
+# Input: two predicate expressions as lists
+# Example: P(x, A) and P(B, A) -> ['x', 'A'], ['B', 'A']
+expr1 = input("Enter first expression (comma-separated): ").replace(" ", "").split(",")
+expr2 = input("Enter second expression (comma-separated): ").replace(" ", "").split(",")
+
+result = unify(expr1, expr2)
+
+print("\n--- Unification Result ---")
+if result:
+    for var, val in result.items():
+        print(f"{var} = {val}")
+else:
+    print("Unification failed.")
