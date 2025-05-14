@@ -1,0 +1,19 @@
+import random
+
+# Simple 1D environment: states 0 to 4, goal is state 4
+rewards = [0, 0, 0, 0, 100]
+Q = [0] * 5  # Q-values for each state
+
+alpha = 0.1   # Learning rate
+gamma = 0.9   # Discount factor
+episodes = int(input("Enter number of episodes: "))
+
+for _ in range(episodes):
+    state = random.randint(0, 3)  # Start at random non-goal state
+    next_state = state + 1        # Move to next state
+    Q[state] += alpha * (rewards[next_state] + gamma * Q[next_state] - Q[state])
+
+# Print final Q-values
+print("\nLearned Q-values:")
+for i in range(5):
+    print(f"State {i}: Q = {round(Q[i], 2)}")
